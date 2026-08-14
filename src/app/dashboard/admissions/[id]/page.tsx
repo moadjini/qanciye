@@ -128,16 +128,8 @@ export default function ViewAdmissionPage() {
 
       await Promise.all(imagePromises)
 
-      // Store original styles
-      const originalWidth = element.style.width
-      const originalMaxWidth = element.style.maxWidth
-
-      // Set fixed width for PDF generation (A4 width in pixels at 96 DPI is ~794px)
-      element.style.width = '794px'
-      element.style.maxWidth = '794px'
-
       const canvas = await html2canvas(content, {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         logging: false,
@@ -147,10 +139,6 @@ export default function ViewAdmissionPage() {
           return false
         },
       })
-
-      // Restore original styles
-      element.style.width = originalWidth
-      element.style.maxWidth = originalMaxWidth
 
       const imgData = canvas.toDataURL('image/png')
       const imgWidth = 210
