@@ -32,7 +32,7 @@ export default function AdmissionDocument({ admission }: AdmissionDocumentProps)
   }
 
   return (
-    <div id="admission-document" className="bg-white w-full max-w-4xl mx-auto p-8" style={{ backgroundColor: '#ffffff' }}>
+    <div id="admission-document" className="bg-white w-full mx-auto p-8" style={{ backgroundColor: '#ffffff', width: '850px' }}>
       {/* Header */}
       <div className="flex justify-between items-start border-b-4 pb-4 mb-6" style={{ borderColor: '#1e40af' }}>
         {/* Left Header */}

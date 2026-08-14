@@ -113,31 +113,19 @@ export default function ViewAdmissionPage() {
       const pdf = new jsPDF('p', 'mm', 'a4')
       const html2canvas = (await import('html2canvas')).default
 
-      // Wait for images to load
-      const images = element.querySelectorAll('img')
-      const imagePromises = Array.from(images).map(img => {
-        if (img.complete) return Promise.resolve()
-        return new Promise<void>((resolve) => {
-          img.onload = () => resolve()
-          img.onerror = () => resolve()
-        })
-      })
-
-      await Promise.all(imagePromises)
-
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 1,
         useCORS: true,
         allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
       })
 
-      const imgData = canvas.toDataURL('image/png')
+      const imgData = canvas.toDataURL('image/jpeg', 0.9)
       const imgWidth = 210
       const imgHeight = (canvas.height * imgWidth) / canvas.width
 
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
+      pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight)
       pdf.save(`Qanciye-Admission-${admission.full_name.replace(/\s+/g, '-')}.pdf`)
 
       toast.dismiss()
@@ -358,15 +346,8 @@ export default function ViewAdmissionPage() {
       </div>
 
       {/* Document */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="hidden md:block">
-          <AdmissionDocument admission={admission} />
-        </div>
-        <div className="md:hidden">
-          <div className="transform scale-90 origin-top-left">
-            <AdmissionDocument admission={admission} />
-          </div>
-        </div>
+      <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
+        <AdmissionDocument admission={admission} />
       </div>
 
       {/* Delete Confirmation Modal */}
